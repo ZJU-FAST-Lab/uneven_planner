@@ -2,6 +2,6 @@
 
 Title: An Efficient Trajectory Planner for Car-like Robots on Uneven Terrain
 
-[Video for the IROS submission](https://www.bilibili.com/video/BV1B24y1G7h5/)
+[Video for the IROS submission](https://www.youtube.com/watch?v=BPfoun_vQ4I)
 
 Coming soon ~
