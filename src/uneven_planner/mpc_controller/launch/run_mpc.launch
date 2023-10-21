@@ -1,0 +1,15 @@
+<launch>
+
+  <arg name="odom_topic" value="/ugv/odometry" />
+  <arg name="traj_topic" value="/ugv/trajectory" />
+  <arg name="cmd_topic" value="/ugv/command" />
+
+  <rosparam command="load" file="$(find mpc_controller)/params/controller.yaml" />
+
+  <node pkg="mpc_controller" name="mpc_controller_node" type="mpc_controller_node" output="screen">
+    <remap from="cmd" to="$(arg cmd_topic)"/>
+    <remap from="odom" to="$(arg odom_topic)"/>
+    <remap from="traj" to="$(arg traj_topic)"/>
+  </node>
+
+</launch>

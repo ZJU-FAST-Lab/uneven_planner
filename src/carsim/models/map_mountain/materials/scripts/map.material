@@ -1,0 +1,15 @@
+material map_mountain/Image
+{
+  receive_shadows off
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/tor_texture.jpeg
+      }
+    }
+  }
+}
+ 

@@ -1,0 +1,14 @@
+build/
+devel/
+log/
+
+.vscode
+.catkin_tools
+.catkin_workspace
+src/CMakeLists.txt
+
+map_mountain.dae
+
+ref/
+*.bag
+*.map

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="racebot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- transmission macros -->
+<xacro:macro name="wheel_transmission" params="name">
+  <transmission name="${name}_transmission" type="SimpleTransmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${name}_joint">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="${name}_motor">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+</xacro:macro>
+
+<xacro:macro name="steering_hinge_transmission" params="name">
+  <transmission name="${name}_transmission" type="SimpleTransmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${name}_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="${name}_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+      <motorTorqueConstant>1000000</motorTorqueConstant>
+    </actuator>
+  </transmission>
+</xacro:macro>
+
+<xacro:macro name="wheel_friction" params="name">
+  <surface>
+      <friction>
+        <ode>
+            <mu>999999999999999999</mu>
+            <mu2>999999999999999999</mu2>
+        </ode>
+      </friction>
+  </surface>
+</xacro:macro>
+
+</robot>

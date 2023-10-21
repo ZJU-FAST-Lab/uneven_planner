@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+
+    <!-- params -->
+    <arg name="use_rviz" default="false"/>
+    <arg name="paused" default="false"/>
+    <arg name="verbose" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+    <arg name="map_name" default="mountain"/>
+
+    <!-- locate car -->
+    <arg name="x_pos" default="0.0"/>
+    <arg name="y_pos" default="0.0"/>
+    <arg name="z_pos" default="10.0"/>
+    <arg name="R_pos" default="0"/>
+    <arg name="P_pos" default="0"/>
+    <arg name="Y_pos" default="0"/>
+
+	<!-- run gazebo -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="verbose" value="$(arg verbose)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="world_name" value="$(find carsim)/worlds/map_$(arg map_name).world"/> 
+  </include>
+
+	<!-- description -->
+	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find carsim)/urdf/car_model_description.xacro'"/>
+
+  <!-- spawn car in gazebo-->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-urdf -model racebot -param robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg R_pos) -P $(arg P_pos) -Y $(arg Y_pos)"/> 
+
+  <!-- publish tf -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" ns="/racebot" respawn="true" output="screen" />
+
+  <!-- rviz -->
+  <node if="$(arg use_rviz)" pkg="rviz" type="rviz" name="rviz" args="-d $(find carsim)/config/config.rviz" />
+
+  <!-- controller config -->
+  <rosparam file="$(find carsim)/config/controller_config.yaml" command="load"/>
+
+  <!-- spawn controller -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner"
+        respawn="false" output="screen" ns="/racebot" 
+        args="joint_state_controller 
+              right_rear_velocity_controller 
+              left_front_velocity_controller
+              right_front_velocity_controller
+              left_rear_velocity_controller
+              right_front_steering_position_controller
+              left_front_steering_position_controller"/>
+
+  <!-- world tf -->
+  <node name="world_tf_pub" pkg="carsim" type="world_tf_pub.py" respawn="true" output="screen"/>
+  <node name="true_state_pub" pkg="carsim" type="true_state_pub.py" respawn="true" output="screen"/>
+
+  <!-- keyboad control -->
+  <node name="keyboard_control" pkg="carsim" type="keyboard_control.py" respawn="true" output="screen"/>
+  
+  <!-- cmd2gazebo -->
+  <node name="cmdvel2gazebo" pkg="carsim" type="cmdvel2gazebo.py" respawn="true" output="screen"/>
+
+  <!-- locate car in xy -->
+  <node name="searchForSetPoint" pkg="carsim" type="searchForSetPoint" output="screen">
+    <param name="map_file" type="string" value="$(find uneven_map)/maps/$(arg map_name).pcd" />
+  </node>
+
+</launch>

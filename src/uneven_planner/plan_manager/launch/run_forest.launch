@@ -1,0 +1,42 @@
+<launch>
+  
+  <arg name="odom_topic" value="/racebot/true_state/odom" />
+  <arg name="cmd_topic" value="/racebot/cmd_vel" />
+  <arg name="traj_topic" value="/ugv/trajectory" />
+  <arg name="map_name" default="forest" />
+  <arg name="x_pos" value="-4.5"/>
+  <arg name="y_pos" value="-4.5"/>
+  <arg name="z_pos" value="2.0"/>
+  <arg name="Y_pos" value="0.0"/>
+
+  <rosparam command="load" file="$(find plan_manager)/params/run_forest.yaml" />
+
+  <node pkg="plan_manager" name="manager_node" type="manager_node" output="screen">
+    <param name="uneven_map/map_pcd" type="string" value="$(find uneven_map)/maps/$(arg map_name).pcd" />
+    <param name="uneven_map/map_file" type="string" value="$(find uneven_map)/maps/$(arg map_name).map" />
+    <remap from ="~cmd" to="$(arg cmd_topic)"/>
+    <remap from="~odom" to="$(arg odom_topic)"/>
+    <remap from="~traj" to="$(arg traj_topic)"/>
+  </node>
+
+  <node pkg="mpc_controller" name="mpc_controller_node" type="mpc_controller_node" output="screen">
+    <remap from="cmd" to="$(arg cmd_topic)"/>
+    <remap from="odom" to="$(arg odom_topic)"/>
+    <remap from="traj" to="$(arg traj_topic)"/>
+  </node>
+
+  <!-- gazebo -->
+  <include file="$(find carsim)/launch/spawn_car.launch">
+    <arg name="use_rviz" value="false"/>
+    <arg name="gui" value="true"/>
+    <arg name="map_name" value="$(arg map_name)"/>
+    <arg name="x_pos" value="$(arg x_pos)"/>
+    <arg name="y_pos" value="$(arg y_pos)"/>
+    <arg name="z_pos" value="$(arg z_pos)"/>
+    <arg name="Y_pos" value="$(arg Y_pos)"/>
+  </include>
+
+  <!-- rviz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find plan_manager)/rviz/default.rviz" required="true" />
+  
+</launch>

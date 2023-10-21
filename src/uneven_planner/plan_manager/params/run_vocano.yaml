@@ -1,0 +1,83 @@
+manager_node:
+  uneven_map:
+    iter_num: 2
+    map_size_x: 10.0
+    map_size_y: 10.0
+    ellipsoid_x: 0.2
+    ellipsoid_y: 0.1
+    ellipsoid_z: 0.1
+    xy_resolution: 0.05
+    yaw_resolution: 0.1
+    min_cnormal: 0.8
+    max_rho: 0.08
+    gravity: 9.81
+    mass: 1.0
+
+  kino_astar:
+    yaw_resolution: 3.15
+    lambda_heu: 1.0
+    weight_r2: 1.0
+    weight_so2: 0.5
+    weight_v_change: 0.0
+    weight_delta_change: 0.0
+    weight_sigma: 10.0
+    time_interval: 0.3
+    collision_interval: 0.06
+    oneshot_range: 1.0
+    wheel_base: 0.26
+    max_steer: 0.5
+    max_vel: 0.5
+    in_test: false
+
+  alm_traj_opt:
+    rho_T: 100000.0
+    rho_ter: 10.0
+    max_vel: 0.5
+    max_acc_lon: 5.0
+    max_acc_lat: 10.0
+    max_kap: 2.1
+    min_cxi: 0.8
+    max_sig: 0.08
+    use_scaling: true
+    rho: 1.0
+    beta: 1000.0
+    gamma: 1.0
+    epsilon_con: 0.001
+    max_iter: 10
+    g_epsilon: 1.0e-03
+    min_step: 1.0e-32
+    inner_max_iter: 10000
+    delta: 1.0e-4
+    mem_size: 256
+    past: 3
+    int_K: 16
+    in_test: false
+    in_debug: false
+
+  manager:
+    piece_len: 0.3
+    mean_vel: 0.5
+    init_time_times: 1.2
+    yaw_piece_times: 2.0
+    init_sig_vel: 0.05
+
+mpc:
+  du_threshold: 0.001
+  dt: 0.02
+  max_iter: 150
+  predict_steps: 30
+  delay_num: 0
+  max_omega: 24.0
+  max_domega: 10.0
+  max_speed: 0.8
+  min_speed: -0.8
+  max_accel: 10.0
+  test_mpc: false
+  bk_mode: false
+  matrix_q: [100.0, 100.0, 2.0]
+  matrix_r: [0.01, 0.01]
+  matrix_rd: [0.01, 100.0]
+  max_steer: 0.505
+  max_dsteer: 1.5
+  wheel_base: 0.26
+  model_type: 2
