@@ -9,17 +9,20 @@ Install the requirements.
 **gazebo plugins**: (use ros noetic with Ubuntu20.04 as an example)
 
 ```
-sudo apt-get install ros-noetic-robot-state-publisher*
-sudo apt-get install ros-noetic-joint-state-controller*
-sudo apt-get install ros-noetic-controller*
-sudo apt-get install ros-noetic-velocity-controllers*
-sudo apt-get install ros-noetic-effort-controllers
-sudo apt-get install ros-noetic-position-controllers
-sudo apt-get install ros-noetic-gazebo-ros-control
+sudo apt install ros-noetic-robot-state-publisher*
+sudo apt install ros-noetic-joint-state-controller*
+sudo apt install ros-noetic-controller*
+sudo apt install ros-noetic-velocity-controllers*
+sudo apt install ros-noetic-effort-controllers
+sudo apt install ros-noetic-position-controllers
+sudo apt install ros-noetic-gazebo-ros-control
 sudo apt install ros-noetic-hector-gazebo
-sudo apt-get install ros-noetic-effort-controllers
-sudo apt-get install ros-noetic-joint-state-controller
-sudo apt-get install ros-noetic-position-controllers
+sudo apt install ros-noetic-effort-controllers
+sudo apt install ros-noetic-joint-state-controller
+sudo apt install ros-noetic-position-controllers
+sudo apt install ros-noetic-velocity-controllers
+sudo apt install ros-noetic-ompl
+sudo apt install ros-noetic-tf2-geometry-msgs ros-noetic-ackermann-msgs ros-noetic-joy 
 ```
 
 **osqp-0.6.2 and osqp-eigen v0.8.0 for mpc controller:**
